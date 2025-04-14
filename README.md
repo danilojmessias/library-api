@@ -15,6 +15,8 @@ Clone o Projeto
  https://github.com/danilojmessias/library-api.git
 ```
 
+Crie um banco de dados MySQL
+
 Crie um .env com este padrão
 
 ```bash
