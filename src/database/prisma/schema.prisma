@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model person {
+  personId     Int    @id @default(autoincrement())
+  personName  String
+  email String
+  user user?
+}
+
+model user {
+  userId     Int    @id @default(autoincrement())
+  password  String
+  personId Int @unique
+  person person @relation(fields: [personId], references: [personId], onDelete: Cascade)
+  loan loan[]
+}
+
+model book {
+  bookId     Int    @id @default(autoincrement())
+  title  String
+  author String
+  categoryId   Int
+  category category @relation(fields: [categoryId], references: [categoryId], onDelete: Cascade)
+  loan loan[]
+}
+
+model category {
+  categoryId     Int    @id @default(autoincrement())
+  categoryName  String
+  books book[]
+}
+
+model loan {
+  loanId Int @id @default(autoincrement())
+  loanDate DateTime
+  loanReturn DateTime
+  bookId Int
+  userId Int 
+  book book @relation(fields: [bookId], references: [bookId], onDelete: Cascade)
+  user user @relation(fields: [userId], references: [userId], onDelete: Cascade)
+}
